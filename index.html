@@ -3,172 +3,185 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Uprise Wealth - Birthday Surprise</title>
+  <title>Birthday Surprise | Uprise Wealth</title>
+
+  <!-- Tailwind + Icons + Fonts -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Caveat:wght@600&family=Inter:wght@500&display=swap" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="style.css">
 
   <style>
-    /* Loader animations (from your index.html) */
-    @keyframes float { 0%{transform:translate(0,0)rotate(0deg)scale(1);} 50%{transform:translate(var(--dx,0px),-20px)rotate(var(--rot,0deg))scale(1.1);} 100%{transform:translate(0,0)rotate(0deg)scale(1);} }
-    @keyframes bounceHeart { 0%,100%{transform:translateY(0)scale(1);} 50%{transform:translateY(-15px)scale(1.2);} }
-    @keyframes pulseScale { 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
-    @keyframes wiggleFloat { 0%,100%{transform:rotate(-10deg)translateY(0)scale(1);} 50%{transform:rotate(10deg)translateY(-5px)scale(1.2);} }
-    .floating { animation:float var(--dur,4s) ease-in-out infinite alternate; }
-    .bounce { animation:bounceHeart 1s infinite; }
-    .pulse { animation:pulseScale 2s infinite; }
-    .wiggle { animation:wiggleFloat var(--dur,2s) ease-in-out infinite; cursor:pointer; }
-    .icon-fill svg { fill:currentColor; }
-    @keyframes vanishOut { to { opacity:0; transform:scale(0.7) translateY(-10px); filter:blur(2px);} }
-    .vanish { animation:vanishOut 0.4s ease forwards; }
-    .page { display:none; }
-    .active { display:block; }
+    body{overflow-x:hidden}
+    .page{display:none}
+    .active{display:block}
 
-    /* Countdown animations (from countdown.html) */
-    @keyframes floatHeart { 0%{transform:translateY(0)translateX(0)rotate(0deg)scale(1);} 50%{transform:translateY(-20px)translateX(var(--random-x,0px))rotate(var(--random-rot,0deg))scale(1.1);} 100%{transform:translateY(0)translateX(0)rotate(0deg)scale(1);} }
-    @keyframes pulseScaleMirror {0%{transform:scale(0.95);} 100%{transform:scale(1);} }
-    @keyframes fadeUp {0%{transform:translateY(20px);opacity:0;} 100%{transform:translateY(0);opacity:1;} }
-    @keyframes dotPulse {0%{transform:scale(1);opacity:0.7;}50%{transform:scale(1.5);opacity:1;}100%{transform:scale(1);opacity:0.7;} }
-    @keyframes hoverWiggle {0%{transform:rotate(-1deg);}33%{transform:rotate(1deg);}66%{transform:rotate(-1deg);}100%{transform:rotate(0deg);} }
-    .floating-heart {animation:floatHeart var(--duration,4s) ease-in-out infinite alternate; animation-delay:var(--delay,0s);}
-    .pulse-mirror {animation:pulseScaleMirror 1.5s ease-in-out infinite alternate;}
-    .fade-up {animation:fadeUp 0.5s ease-out both;}
-    .hover-wiggle:hover {animation:hoverWiggle 0.4s ease-in-out;transform:scale(1.05);}
-    .dot {width:0.75rem;height:0.75rem;border-radius:9999px;background-color:rgb(244 114 182);animation:dotPulse 1s infinite;}
-
-    /* Birthday page styles from your birthday.html (embedded style section already handled by style.css) */
+    /* ---------- loader animations ---------- */
+    @keyframes float{0%{transform:translate(0,0)rotate(0)scale(1)}50%{transform:translate(var(--dx,0),-20px)rotate(var(--rot,0))scale(1.1)}100%{transform:translate(0,0)rotate(0)scale(1)}}
+    @keyframes bounceHeart{0%,100%{transform:translateY(0)scale(1)}50%{transform:translateY(-15px)scale(1.2)}}
+    @keyframes pulseScale{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+    @keyframes wiggleFloat{0%,100%{transform:rotate(-10deg)translateY(0)scale(1)}50%{transform:rotate(10deg)translateY(-5px)scale(1.2)}}
+    @keyframes vanishOut{to{opacity:0;transform:scale(.7)translateY(-10px);filter:blur(2px)}}
+    .floating{animation:float var(--dur,4s)ease-in-out infinite alternate}
+    .bounce{animation:bounceHeart 1s infinite}
+    .pulse{animation:pulseScale 2s infinite}
+    .wiggle{animation:wiggleFloat var(--dur,2s)ease-in-out infinite;cursor:pointer}
+    .vanish{animation:vanishOut .4s ease forwards}
+    .icon-fill svg{fill:currentColor}
   </style>
 </head>
-<body class="bg-gradient-to-b from-rose-100 to-purple-100 overflow-hidden">
 
-  <!-- Continuous Music -->
-  <audio id="bgMusic" autoplay loop>
-    <source src="music/barbaad.mp3" type="audio/mpeg">
-  </audio>
+<body class="bg-gradient-to-b from-rose-100 to-purple-100">
 
-  <!-- PAGE 1: LOADER -->
-  <section id="page1" class="page active flex items-center justify-center min-h-screen">
-    <div id="bg-icons" class="fixed inset-0 overflow-hidden pointer-events-none"></div>
-    <div class="relative z-10 bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg shadow-rose-100 p-8 border-4 border-pink-200 flex flex-col items-center max-w-xs mx-auto">
-      <div class="flex justify-center space-x-3 mb-5">
-        <i data-lucide="heart" class="w-8 h-8 text-pink-400 icon-fill bounce"></i>
-        <i data-lucide="heart" class="w-8 h-8 text-pink-500 icon-fill bounce"></i>
-        <i data-lucide="heart" class="w-8 h-8 text-purple-400 icon-fill bounce"></i>
+<!-- 🎵 continuous music -->
+<audio id="bgMusic" autoplay loop>
+  <source src="music/barbaad.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 🔹 PAGE 1 : Loader -->
+<section id="page1" class="page active flex items-center justify-center min-h-screen">
+  <div id="bg-icons" class="fixed inset-0 overflow-hidden pointer-events-none"></div>
+  <div class="relative z-10 bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg shadow-rose-100 p-8 border-4 border-pink-200 flex flex-col items-center max-w-xs mx-auto">
+    <div class="flex justify-center space-x-3 mb-5">
+      <i data-lucide="heart" class="w-8 h-8 text-pink-400 icon-fill bounce"></i>
+      <i data-lucide="heart" class="w-8 h-8 text-pink-500 icon-fill bounce"></i>
+      <i data-lucide="heart" class="w-8 h-8 text-purple-400 icon-fill bounce"></i>
+    </div>
+    <p class="text-xl font-bold text-center text-pink-600 mb-3 pulse">Loading something special...</p>
+    <div id="emoji-row" class="flex justify-center space-x-4 mt-5 text-xl">
+      <span class="wiggle" data-emoji>🎂</span>
+      <span class="wiggle" data-emoji>✨</span>
+      <span class="wiggle" data-emoji>🎁</span>
+      <span class="wiggle" data-emoji>💖</span>
+      <span class="wiggle" data-emoji>🎈</span>
+    </div>
+  </div>
+</section>
+<!-- 🔹 PAGE 2 : Countdown -->
+<section id="page2" class="page flex items-center justify-center min-h-screen">
+  <div id="bg-hearts" class="fixed inset-0 overflow-hidden pointer-events-none"></div>
+  <div class="relative z-10 bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg shadow-rose-100 p-8 border-4 border-pink-200 max-w-2xl mx-4">
+    <div class="flex flex-col items-center justify-center">
+      <h1 class="text-3xl md:text-4xl font-bold text-center text-pink-600 min-h-20 mb-6 animate-pulse">
+        Your Special Day is Almost Here 💕
+      </h1>
+
+      <div id="cards" class="flex flex-wrap justify-center gap-4 mb-8">
+        <div class="bg-white rounded-3xl shadow-lg p-4 w-28 h-28 flex flex-col items-center justify-center border-2 border-pink-200">
+          <div id="days-value" class="text-3xl font-bold text-purple-600">0</div>
+          <div class="text-sm text-pink-500">days</div>
+        </div>
+        <div class="bg-white rounded-3xl shadow-lg p-4 w-28 h-28 flex flex-col items-center justify-center border-2 border-pink-200">
+          <div id="hours-value" class="text-3xl font-bold text-purple-600">0</div>
+          <div class="text-sm text-pink-500">hours</div>
+        </div>
+        <div class="bg-white rounded-3xl shadow-lg p-4 w-28 h-28 flex flex-col items-center justify-center border-2 border-pink-200">
+          <div id="minutes-value" class="text-3xl font-bold text-purple-600">0</div>
+          <div class="text-sm text-pink-500">minutes</div>
+        </div>
+        <div class="bg-white rounded-3xl shadow-lg p-4 w-28 h-28 flex flex-col items-center justify-center border-2 border-pink-200">
+          <div id="seconds-value" class="text-3xl font-bold text-purple-600">5</div>
+          <div class="text-sm text-pink-500">seconds</div>
+        </div>
       </div>
-      <p class="text-xl font-bold text-center text-pink-600 mb-3 pulse">
-        Loading something special...
-      </p>
-      <div id="emoji-row" class="flex justify-center space-x-4 mt-5 text-xl">
-        <span class="wiggle" data-emoji>🎂</span>
-        <span class="wiggle" data-emoji>✨</span>
-        <span class="wiggle" data-emoji>🎁</span>
-        <span class="wiggle" data-emoji>💖</span>
-        <span class="wiggle" data-emoji>🎈</span>
+
+      <div class="text-center max-w-md mx-auto bg-pink-50 p-4 rounded-3xl border-2 border-pink-100">
+        <p class="text-lg text-purple-700 mb-4">
+          Just a little more... A small gift for my favorite person ❤️
+        </p>
+        <div class="flex justify-center space-x-2">
+          <span class="w-3 h-3 bg-pink-400 rounded-full animate-ping"></span>
+          <span class="w-3 h-3 bg-pink-400 rounded-full animate-ping delay-150"></span>
+          <span class="w-3 h-3 bg-pink-400 rounded-full animate-ping delay-300"></span>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+<!-- 🔹 PAGE 3 : Birthday -->
+<section id="page3" class="page">
+  <!-- your entire birthday.html content -->
+  <!-- copy everything from <div id="cake-intro"> ... down to the closing </div> of your birthday page -->
+  <!-- keep all your images in /images and style.css exactly the same -->
+  <!-- example: -->
+  <div id="cake-intro">
+    <!-- ... full birthday HTML from your original file ... -->
+  </div>
+</section>
 
-  <!-- PAGE 2: COUNTDOWN -->
-  <section id="page2" class="page flex items-center justify-center min-h-screen">
-    <div id="bg-hearts" class="fixed inset-0 overflow-hidden pointer-events-none"></div>
-    <div class="relative z-10 bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg shadow-rose-100 p-8 border-4 border-pink-200 max-w-2xl mx-4">
-      <div class="flex flex-col items-center justify-center">
-        <h1 class="text-3xl md:text-4xl font-bold text-center text-pink-600 min-h-20 mb-6 pulse-mirror">
-          Your Special Day is Almost Here💕
-        </h1>
-        <div id="cards" class="flex flex-wrap justify-center gap-4 mb-8">
-          <div class="bg-white rounded-3xl shadow-lg p-4 w-28 h-28 flex flex-col items-center justify-center border-2 border-pink-200 fade-up"><div id="days-value" class="text-3xl font-bold text-purple-600">0</div><div class="text-sm text-pink-500 capitalize">days</div></div>
-          <div class="bg-white rounded-3xl shadow-lg p-4 w-28 h-28 flex flex-col items-center justify-center border-2 border-pink-200 fade-up"><div id="hours-value" class="text-3xl font-bold text-purple-600">0</div><div class="text-sm text-pink-500 capitalize">hours</div></div>
-          <div class="bg-white rounded-3xl shadow-lg p-4 w-28 h-28 flex flex-col items-center justify-center border-2 border-pink-200 fade-up"><div id="minutes-value" class="text-3xl font-bold text-purple-600">0</div><div class="text-sm text-pink-500 capitalize">minutes</div></div>
-          <div class="bg-white rounded-3xl shadow-lg p-4 w-28 h-28 flex flex-col items-center justify-center border-2 border-pink-200 fade-up"><div id="seconds-value" class="text-3xl font-bold text-purple-600">5</div><div class="text-sm text-pink-500 capitalize">seconds</div></div>
-        </div>
-        <div class="text-center max-w-md mx-auto bg-pink-50 p-4 rounded-3xl border-2 border-pink-100 fade-up">
-          <p class="text-lg text-purple-700 mb-4">
-            Just a little more... A small gift for my favorite person ❤️
-          </p>
-          <div class="flex justify-center space-x-2">
-            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- ------------- JavaScript Section ------------- -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  /* ===== Utility ===== */
+  const pages = document.querySelectorAll(".page");
+  const showPage = id => {
+    pages.forEach(p => p.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+  };
 
-  <!-- PAGE 3: BIRTHDAY -->
-  <section id="page3" class="page">
-    <!-- Birthday HTML code (copied exactly from your birthday.html) -->
-    <!-- (omitted here for brevity; all of your original birthday content and JS included) -->
-  </section>
-
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script>
-  // ----------- Page Navigation Logic -----------
-  const pages = document.querySelectorAll('.page');
-  const showPage = id => { pages.forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); };
-
-  // --- PAGE 1 Logic ---
-  const rand = (min, max) => Math.random() * (max - min) + min;
-  const container = document.getElementById('bg-icons');
-  for (let i=0;i<20;i++){
-    const wrapper=document.createElement('span');
-    wrapper.className='absolute floating';
-    wrapper.style.left=rand(0,100)+'%';wrapper.style.top=rand(0,100)+'%';
-    wrapper.style.setProperty('--dur',(3+Math.random()*3)+'s');
-    wrapper.style.setProperty('--dx',(Math.random()*20-10)+'px');
-    wrapper.style.setProperty('--rot',(Math.random()*10-5)+'deg');
-    wrapper.style.animationDelay=(Math.random()*2)+'s';
-    const size=4+(i%4);
-    const icon=document.createElement('i');
-    icon.setAttribute('data-lucide','heart');
-    icon.className=`w-${size} h-${size} text-pink-400 icon-fill`;
-    wrapper.appendChild(icon);
-    container.appendChild(wrapper);
+  /* ===== Loader hearts background ===== */
+  const rand = (min,max)=>Math.random()*(max-min)+min;
+  const container=document.getElementById("bg-icons");
+  if(container){
+    for(let i=0;i<20;i++){
+      const w=document.createElement("span");
+      w.className="absolute floating";
+      w.style.left=rand(0,100)+"%";
+      w.style.top=rand(0,100)+"%";
+      w.style.setProperty("--dur",(3+Math.random()*3)+"s");
+      w.style.setProperty("--dx",(Math.random()*20-10)+"px");
+      w.style.setProperty("--rot",(Math.random()*10-5)+"deg");
+      w.style.animationDelay=(Math.random()*2)+"s";
+      const s=4+(i%4);
+      const icon=document.createElement("i");
+      icon.setAttribute("data-lucide","heart");
+      icon.className=`w-${s} h-${s} text-pink-400 icon-fill`;
+      w.appendChild(icon);
+      container.appendChild(w);
+    }
   }
   lucide.createIcons();
 
-  const emojiSpans=document.querySelectorAll('#emoji-row [data-emoji]');
-  let clickedCount=0;
-  emojiSpans.forEach(span=>{
-    span.addEventListener('click',()=>{
-      if(span.classList.contains('vanish'))return;
-      span.classList.add('vanish');
-      clickedCount++;
-      if(clickedCount===emojiSpans.length){
-        setTimeout(()=>showPage('page2'),450);
+  /* ===== Emoji click to next page ===== */
+  const emojis=document.querySelectorAll("#emoji-row [data-emoji]");
+  let clicked=0;
+  emojis.forEach(e=>{
+    e.addEventListener("click",()=>{
+      if(e.classList.contains("vanish"))return;
+      e.classList.add("vanish");
+      clicked++;
+      if(clicked===emojis.length){
+        setTimeout(()=>showPage("page2"),600);
       }
     });
   });
 
-  // --- PAGE 2 Countdown ---
-  const heartsContainer=document.getElementById('bg-hearts');
-  for(let i=0;i<20;i++){
-    const heart=document.createElement('div');
-    heart.className='absolute floating-heart opacity-70';
-    heart.style.left=Math.random()*100+'%';
-    heart.style.top=Math.random()*100+'%';
-    heart.style.setProperty('--duration',(3+Math.random()*3)+'s');
-    heart.style.setProperty('--delay',Math.random()*2+'s');
-    heartsContainer.appendChild(heart);
+  /* ===== Countdown page hearts ===== */
+  const heartsContainer=document.getElementById("bg-hearts");
+  if(heartsContainer){
+    for(let i=0;i<20;i++){
+      const h=document.createElement("div");
+      h.className="absolute floating opacity-70";
+      h.style.left=Math.random()*100+"%";
+      h.style.top=Math.random()*100+"%";
+      h.style.setProperty("--dur",(3+Math.random()*3)+"s");
+      h.style.setProperty("--dx",(Math.random()*20-10)+"px");
+      heartsContainer.appendChild(h);
+    }
   }
 
-  let totalSeconds=5;
-  const daysEl=document.getElementById('days-value');
-  const hoursEl=document.getElementById('hours-value');
-  const minutesEl=document.getElementById('minutes-value');
-  const secondsEl=document.getElementById('seconds-value');
-  function renderDHMS(total){
-    daysEl.textContent=0;hoursEl.textContent=0;minutesEl.textContent=0;secondsEl.textContent=total;
+  /* ===== Countdown Timer ===== */
+  let total=5;
+  const secEl=document.getElementById("seconds-value");
+  function tick(){
+    if(!document.getElementById("page2").classList.contains("active")) return;
+    total--;
+    secEl.textContent=total;
+    if(total<=0){clearInterval(timer);showPage("page3");}
   }
-  renderDHMS(totalSeconds);
-  const timer=setInterval(()=>{
-    totalSeconds--;
-    if(totalSeconds<=0){
-      clearInterval(timer);
-      showPage('page3');
-    }else renderDHMS(totalSeconds);
-  },1000);
-  </script>
+  const timer=setInterval(tick,1000);
+});
+</script>
 </body>
-                                                                                                                                                                                                                                                                                      </html>
+</html>
