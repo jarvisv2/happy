@@ -20,7 +20,6 @@
     .vanish { animation:vanishOut 0.4s ease forwards; }
   
 
-
     @keyframes floatHeart {
       0%{transform:translateY(0)translateX(0)rotate(0deg)scale(1);}
       50%{transform:translateY(-20px)translateX(var(--random-x,0px))rotate(var(--random-rot,0deg))scale(1.1);}
@@ -37,7 +36,6 @@
     .dot {width:0.75rem;height:0.75rem;border-radius:9999px;background-color:rgb(244 114 182);animation:dotPulse 1s infinite;}
     .icon-fill svg { fill: currentColor; }
   
-
 
     #cake-intro{
       position:fixed; inset:0;
@@ -119,7 +117,7 @@
 </head>
 <body>
   <!-- Index Section -->
-  <div id="indexSection">
+  <div id="indexSection" style="display:block;">
 
   <div id="bg-icons" class="fixed inset-0 overflow-hidden pointer-events-none"></div>
   <div class="relative z-10 bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg shadow-rose-100 p-8 border-4 border-pink-200 flex flex-col items-center max-w-xs mx-auto">
@@ -710,445 +708,39 @@
   </div>
 
   <script>
-    // Combined scripts with section management
+    // Navigation override to prevent page reloads
     (function() {
-      // Index section script
+      // Override window.location.href to use section navigation instead
+      let originalLocation = window.location.href;
 
-    // Floating background icons
-    const rand = (min, max) => Math.random() * (max - min) + min;
-    const container = document.getElementById('bg-icons');
-    const count = 20;
-    for (let i = 0; i < count; i++) {
-      const wrapper = document.createElement('span');
-      wrapper.className = 'absolute floating';
-      wrapper.style.left = rand(0, 100) + '%';
-      wrapper.style.top  = rand(0, 100) + '%';
-      wrapper.style.setProperty('--dur', (3 + Math.random() * 3) + 's');
-      wrapper.style.setProperty('--dx', (Math.random() * 20 - 10) + 'px');
-      wrapper.style.setProperty('--rot', (Math.random() * 10 - 5) + 'deg');
-      wrapper.style.animationDelay = (Math.random() * 2) + 's';
-      const size = 4 + (i % 4);
-      const which = (i % 5 === 0) ? 'star' : (i % 5 === 1 ? 'sparkles' : 'heart');
-      const icon = document.createElement('i');
-      icon.setAttribute('data-lucide', which);
-      icon.className = `w-${size} h-${size} opacity-70`;
-      if (which === 'star') icon.classList.add('text-yellow-300','fill-yellow-100','icon-fill');
-      else if (which === 'sparkles') icon.classList.add('text-purple-300');
-      else {
-        if (i % 3 === 0) icon.classList.add('text-pink-300');
-        else if (i % 3 === 1) icon.classList.add('text-pink-400');
-        else icon.classList.add('text-purple-300');
-        icon.classList.add(i % 2 === 0 ? 'fill-pink-100' : 'fill-pink-200','icon-fill');
-      }
-      wrapper.appendChild(icon);
-      container.appendChild(wrapper);
-    }
-    lucide.createIcons();
+      Object.defineProperty(window.location, 'href', {
+        get: function() {
+          return originalLocation;
+        },
+        set: function(url) {
+          // Intercept navigation and show appropriate section
+          if (url.includes('countdown.html')) {
+            document.getElementById('indexSection').style.display = 'none';
+            document.getElementById('countdownSection').style.display = 'block';
+            document.getElementById('birthdaySection').style.display = 'none';
 
-    // Emoji logic - all must be clicked before redirect
-    const emojiSpans = document.querySelectorAll('#emoji-row [data-emoji]');
-    let clickedCount = 0;
-    emojiSpans.forEach(span => {
-      span.addEventListener('click', function(e) {
-        if (span.classList.contains('vanish')) return;
-        span.classList.add('vanish');
-        span.style.pointerEvents = 'none';
-        clickedCount++;
-        if (clickedCount === emojiSpans.length) {
-          setTimeout(() => {
-            window.location.href = 'countdown.html';
-          }, 450);
+            // Reinitialize countdown section
+            if (typeof initCountdown === 'function') {
+              setTimeout(initCountdown, 100);
+            }
+          } else if (url.includes('birthday.html')) {
+            document.getElementById('indexSection').style.display = 'none';
+            document.getElementById('countdownSection').style.display = 'none';
+            document.getElementById('birthdaySection').style.display = 'block';
+
+            // Reinitialize birthday section
+            if (typeof initBirthday === 'function') {
+              setTimeout(initBirthday, 100);
+            }
+          }
+          return url;
         }
       });
-    });
-  
-
-  (function(){
-    const MUSIC_SRC = "https://raw.githubusercontent.com/jarvisv2/happybirthday/main/music/barbaad.mp3";
-    
-    if (!window.persistentAudio) {
-      console.log("🎵 Starting music for the first time");
-      window.persistentAudio = new Audio(MUSIC_SRC);
-      window.persistentAudio.loop = true;
-      window.persistentAudio.volume = 0.6;
-      window.persistentAudio.preload = "auto";
-      
-      let playPromise = window.persistentAudio.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(function(error) {
-          console.log("🔇 Autoplay blocked, waiting for user click");
-          document.addEventListener('click', function() {
-            window.persistentAudio.play();
-            console.log("🎵 Music started after user interaction");
-          }, { once: true });
-        });
-      }
-    } else {
-      console.log("🎵 Music already exists, continuing seamlessly");
-      if (window.persistentAudio.paused) {
-        window.persistentAudio.play().catch(function(error) {
-          console.log("⚠️ Could not resume audio:", error);
-        });
-      }
-    }
-  })();
-  
-
-    // Background hearts
-    const heartsContainer = document.getElementById('bg-hearts');
-    const heartCount = 20;
-    for (let i = 0; i < heartCount; i++) {
-      const heart = document.createElement('div');
-      heart.className = 'absolute floating-heart opacity-70';
-      heart.style.left = Math.random() * 100 + '%';
-      heart.style.top = Math.random() * 100 + '%';
-      heart.style.setProperty('--duration', (3 + Math.random() * 3) + 's');
-      heart.style.setProperty('--delay', Math.random() * 2 + 's');
-      heart.style.setProperty('--random-x', (Math.random() * 20 - 10) + 'px');
-      heart.style.setProperty('--random-rot', (Math.random() * 10 - 5) + 'deg');
-      const icon = document.createElement('i');
-      icon.setAttribute('data-lucide', 'heart');
-      const size = 4 + (i % 4);
-      icon.className = `w-${size} h-${size} icon-fill`;
-      if (i % 3 === 0) icon.classList.add('text-pink-300','fill-pink-100');
-      else if (i % 3 === 1) icon.classList.add('text-pink-400','fill-pink-200');
-      else icon.classList.add('text-purple-300','fill-purple-100');
-      heart.appendChild(icon);
-      heartsContainer.appendChild(heart);
-    }
-    lucide.createIcons();
-
-    // Countdown logic
-    let totalSeconds = 5;
-    const daysEl = document.getElementById('days-value');
-    const hoursEl = document.getElementById('hours-value');
-    const minutesEl = document.getElementById('minutes-value');
-    const secondsEl = document.getElementById('seconds-value');
-    const cardsEl = document.getElementById('cards');
-    
-    function renderDHMS(total) {
-      const days = Math.floor(total / 86400);
-      const hours = Math.floor((total % 86400) / 3600);
-      const minutes = Math.floor((total % 3600) / 60);
-      const seconds = total % 60;
-      daysEl.textContent = days;
-      hoursEl.textContent = hours;
-      minutesEl.textContent = minutes;
-      secondsEl.textContent = seconds;
-    }
-    
-    function showSurpriseButton() {
-      cardsEl.innerHTML = '<button id="surprise-btn" class="mt-2 bg-pink-500 text-white font-semibold py-3 px-5 rounded-2xl hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300">🎉 Surprise! The wait is over! 🎁</button>';
-      document.getElementById('surprise-btn').addEventListener('click', function() {
-        window.location.href = 'birthday.html';
-      });
-    }
-    
-    renderDHMS(totalSeconds);
-    const timer = setInterval(() => {
-      totalSeconds -= 1;
-      if (totalSeconds <= 0) {
-        clearInterval(timer);
-        renderDHMS(0);
-        showSurpriseButton();
-      } else {
-        renderDHMS(totalSeconds);
-      }
-    }, 1000);
-  
-
-  (function(){
-    const MUSIC_SRC = "https://raw.githubusercontent.com/jarvisv2/happybirthday/main/music/barbaad.mp3";
-    
-    if (!window.persistentAudio) {
-      console.log("🎵 Starting music for the first time");
-      window.persistentAudio = new Audio(MUSIC_SRC);
-      window.persistentAudio.loop = true;
-      window.persistentAudio.volume = 0.6;
-      window.persistentAudio.preload = "auto";
-      
-      let playPromise = window.persistentAudio.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(function(error) {
-          console.log("🔇 Autoplay blocked, waiting for user click");
-          document.addEventListener('click', function() {
-            window.persistentAudio.play();
-            console.log("🎵 Music started after user interaction");
-          }, { once: true });
-        });
-      }
-    } else {
-      console.log("🎵 Music already exists, continuing seamlessly");
-      if (window.persistentAudio.paused) {
-        window.persistentAudio.play().catch(function(error) {
-          console.log("⚠️ Could not resume audio:", error);
-        });
-      }
-    }
-  })();
-  
-
-      // Countdown section script
-
-    // Background hearts
-    const heartsContainer = document.getElementById('bg-hearts');
-    const heartCount = 20;
-    for (let i = 0; i < heartCount; i++) {
-      const heart = document.createElement('div');
-      heart.className = 'absolute floating-heart opacity-70';
-      heart.style.left = Math.random() * 100 + '%';
-      heart.style.top = Math.random() * 100 + '%';
-      heart.style.setProperty('--duration', (3 + Math.random() * 3) + 's');
-      heart.style.setProperty('--delay', Math.random() * 2 + 's');
-      heart.style.setProperty('--random-x', (Math.random() * 20 - 10) + 'px');
-      heart.style.setProperty('--random-rot', (Math.random() * 10 - 5) + 'deg');
-      const icon = document.createElement('i');
-      icon.setAttribute('data-lucide', 'heart');
-      const size = 4 + (i % 4);
-      icon.className = `w-${size} h-${size} icon-fill`;
-      if (i % 3 === 0) icon.classList.add('text-pink-300','fill-pink-100');
-      else if (i % 3 === 1) icon.classList.add('text-pink-400','fill-pink-200');
-      else icon.classList.add('text-purple-300','fill-purple-100');
-      heart.appendChild(icon);
-      heartsContainer.appendChild(heart);
-    }
-    lucide.createIcons();
-
-    // Countdown logic
-    let totalSeconds = 5;
-    const daysEl = document.getElementById('days-value');
-    const hoursEl = document.getElementById('hours-value');
-    const minutesEl = document.getElementById('minutes-value');
-    const secondsEl = document.getElementById('seconds-value');
-    const cardsEl = document.getElementById('cards');
-    
-    function renderDHMS(total) {
-      const days = Math.floor(total / 86400);
-      const hours = Math.floor((total % 86400) / 3600);
-      const minutes = Math.floor((total % 3600) / 60);
-      const seconds = total % 60;
-      daysEl.textContent = days;
-      hoursEl.textContent = hours;
-      minutesEl.textContent = minutes;
-      secondsEl.textContent = seconds;
-    }
-    
-    function showSurpriseButton() {
-      cardsEl.innerHTML = '<button id="surprise-btn" class="mt-2 bg-pink-500 text-white font-semibold py-3 px-5 rounded-2xl hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300">🎉 Surprise! The wait is over! 🎁</button>';
-      document.getElementById('surprise-btn').addEventListener('click', function() {
-        window.location.href = 'birthday.html';
-      });
-    }
-    
-    renderDHMS(totalSeconds);
-    const timer = setInterval(() => {
-      totalSeconds -= 1;
-      if (totalSeconds <= 0) {
-        clearInterval(timer);
-        renderDHMS(0);
-        showSurpriseButton();
-      } else {
-        renderDHMS(totalSeconds);
-      }
-    }, 1000);
-  
-
-  (function(){
-    const MUSIC_SRC = "https://raw.githubusercontent.com/jarvisv2/happybirthday/main/music/barbaad.mp3";
-    
-    if (!window.persistentAudio) {
-      console.log("🎵 Starting music for the first time");
-      window.persistentAudio = new Audio(MUSIC_SRC);
-      window.persistentAudio.loop = true;
-      window.persistentAudio.volume = 0.6;
-      window.persistentAudio.preload = "auto";
-      
-      let playPromise = window.persistentAudio.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(function(error) {
-          console.log("🔇 Autoplay blocked, waiting for user click");
-          document.addEventListener('click', function() {
-            window.persistentAudio.play();
-            console.log("🎵 Music started after user interaction");
-          }, { once: true });
-        });
-      }
-    } else {
-      console.log("🎵 Music already exists, continuing seamlessly");
-      if (window.persistentAudio.paused) {
-        window.persistentAudio.play().catch(function(error) {
-          console.log("⚠️ Could not resume audio:", error);
-        });
-      }
-    }
-  })();
-  
-
-      // Birthday section script
-
-(function(){
-  const intro = document.getElementById('cake-intro');
-  const cutBtn = document.getElementById('ci-cut-btn');
-  const quote = intro.querySelector('.cake-quote');
-  function burst(n=30){
-    const colors=['#fe8dc6','#fbbf24','#a3e635','#60b5fa','#ab8bfa','#f782b6'];
-    for(let i=0;i<n;i++){
-      const s=document.createElement('span');
-      s.className='confetti';
-      s.style.background = colors[i % colors.length];
-      s.style.setProperty('--x', (Math.random()*260-130)+'px');
-      s.style.setProperty('--d', (1.3+Math.random()*0.8).toFixed(2)+'s');
-      s.style.setProperty('--dl', (0.05+Math.random()*0.35).toFixed(2)+'s');
-      intro.appendChild(s);
-      setTimeout(()=>s.remove(), 2100);
-    }
-  }
-  function playCut(){
-    cutBtn.style.display="none";
-    intro.classList.add('ci-cut');
-    burst(30);
-    setTimeout(()=>{intro.classList.add('ci-quote');},950);
-    setTimeout(hide, 2600);
-  }
-  function hide(){
-    intro.classList.add('ci-fade-out');
-    setTimeout(()=>intro.remove(), 800);
-  }
-  cutBtn.addEventListener('click', playCut);
-  document.getElementById('ci-skip').addEventListener('click', hide);
-})();
-
-
-    let datetxt = "2 Nov  1999";
-    let datatxtletter = "Happy birthday to the most beautiful, special girl in my heart. May your birthday be as beautiful and special as you are. Wishing you all the happiness your heart can hold on your special day.💕";
-    let titleLetter = "To you";
-    let charArrDate = datetxt.split('');
-    let charArrDateLetter = datatxtletter.split('');
-    let charArrTitle = titleLetter.split('');
-    let currentIndex = 0;
-    let currentIndexLetter = 0;
-    let currentIndexTitle = 0;
-    let date__of__birth = document.querySelector(".date__of__birth span");
-    let text__letter = document.querySelector(".text__letter p");
-    setTimeout(function(){
-        timeDatetxt = setInterval(function(){
-            if(currentIndex < charArrDate.length){
-                date__of__birth.textContent += charArrDate[currentIndex];
-                currentIndex++;
-            }
-            else{
-                let i = document.createElement("i");
-                i.className = "fa-solid fa-star"
-                document.querySelector(".date__of__birth").prepend(i)
-                document.querySelector(".date__of__birth").appendChild(i.cloneNode(true))
-                clearInterval(timeDatetxt)
-            }
-        },100)
-    },12000)
-
-    var intervalContent;
-    var intervalTitle;
-    $("#btn__letter").on("click", function(){
-        $(".box__letter").slideDown()
-        setTimeout(function(){
-            $(".letter__border").slideDown();
-        },1000)
-        setTimeout(function(){
-            intervalTitle = setInterval(function(){
-                if(currentIndexTitle < charArrTitle.length){
-                    document.querySelector(".title__letter").textContent += charArrTitle[currentIndexTitle];
-                    let i = document.createElement("i");
-                    i.className = "fa-solid fa-heart"
-                    document.querySelector(".title__letter").appendChild(i)
-                    currentIndexTitle++;
-                }
-                else{
-                    clearInterval(intervalTitle)
-                }
-            },100)
-        },2000)
-        setTimeout(function(){
-            document.querySelector("#heart__letter").classList.add("animationOp");
-            document.querySelector(".love__img").classList.add("animationOp");
-            document.querySelector("#mewmew").classList.add("animationOp");
-        },2800)
-        setTimeout(function(){
-            document.querySelectorAll(".heart").forEach((item)=>{
-                item.classList.add("animation")
-            })
-        },3500)
-        setTimeout(function(){
-            intervalContent = setInterval(function(){
-                if(currentIndexLetter < charArrDateLetter.length){
-                    text__letter.textContent += charArrDateLetter[currentIndexLetter];
-                    currentIndexLetter++;
-                }
-                else{
-                    clearInterval(intervalContent)
-                }
-            },50)
-        },6000)
-    })
-    $(".close").on("click", function(){
-        clearInterval(intervalContent)
-        document.querySelector(".title__letter").textContent = "";
-        text__letter.textContent = "";
-        currentIndexLetter = 0
-        currentIndexTitle = 0
-        document.querySelector("#heart__letter").classList.remove("animationOp");
-        document.querySelector(".love__img").classList.remove("animationOp");
-        document.querySelector("#mewmew").classList.remove("animationOp");
-        document.querySelectorAll(".heart").forEach((item)=>{
-                item.classList.remove("animation")
-            })
-        $(".box__letter").slideUp();
-        $(".letter__border").slideUp();
-    })
-     
-
-(function(){
-  const MUSIC_SRC = "https://raw.githubusercontent.com/jarvisv2/happybirthday/main/music/barbaad.mp3";
-  
-  if (!window.persistentAudio) {
-    console.log("🎵 Starting music for the first time");
-    window.persistentAudio = new Audio(MUSIC_SRC);
-    window.persistentAudio.loop = true;
-    window.persistentAudio.volume = 0.6;
-    window.persistentAudio.preload = "auto";
-    
-    let playPromise = window.persistentAudio.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(function(error) {
-        console.log("🔇 Autoplay blocked, waiting for user click");
-        document.addEventListener('click', function() {
-          window.persistentAudio.play();
-          console.log("🎵 Music started after user interaction");
-        }, { once: true });
-      });
-    }
-  } else {
-    console.log("🎵 Music already exists, continuing seamlessly");
-    if (window.persistentAudio.paused) {
-      window.persistentAudio.play().catch(function(error) {
-        console.log("⚠️ Could not resume audio:", error);
-      });
-    }
-  }
-})();
-
-
-      // Override navigation logic to work with sections
-      window.goToCountdown = function() {
-        document.getElementById('indexSection').style.display = 'none';
-        document.getElementById('countdownSection').style.display = 'block';
-        // Restart countdown logic if needed
-      };
-
-      window.goToBirthday = function() {
-        document.getElementById('countdownSection').style.display = 'none';
-        document.getElementById('birthdaySection').style.display = 'block';
-        // Restart birthday animations if needed
-      };
     })();
   </script>
 </body>
