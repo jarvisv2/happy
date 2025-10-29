@@ -176,7 +176,7 @@ body {
 #birthday-section .title .hat-img {
   position: absolute;
   right: 45px;
-  top: -350px;
+  top: -120px;      /* was -350px — fixed alignment */
   transform: rotate(-40deg);
   z-index: 2;
   opacity: 1;
