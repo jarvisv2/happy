@@ -472,7 +472,7 @@ if (typeof startDateTyping === 'function') {
                     <span style="--t: 6.4s;">y</span>
                 </h1>
                 <div class="hat">
-                    <img src="./images/hat.png" class="hat" alt="">
+                    <img src="./images/hat.png" class="hat-img" alt="">
                 </div>
             </div>
             <div class="date__of__birth">
@@ -632,7 +632,7 @@ if (typeof startDateTyping === 'function') {
     // Replace the old setTimeout with a function you can call when the birthday section is shown
 function startDateTyping(delay=0){
     currentIndex = 0;
-    date__of__birth.textContent = ""; // Clear before animation
+    date__of__birth.textContent = "";
     setTimeout(function(){
         timeDatetxt = setInterval(function(){
             if(currentIndex < charArrDate.length){
