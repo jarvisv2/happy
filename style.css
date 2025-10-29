@@ -133,15 +133,24 @@ body {
         transform: rotate(-12deg);
     }
 }
-#birthday-section .title{
+#birthday-section .title {
     position: relative;
     width: 100%;
     display: flex;
     justify-content: center;
     font-family: "Titan One", sans-serif;
-    font-size: 4.2rem;
+    font-size: 4.6rem;      /* larger text like original */
+    line-height: 1.05;      /* keeps “Happy” and “Birthday” tight */
+    letter-spacing: 3px;
     flex-direction: column;
     perspective: 1000px;
+}
+#birthday-section .title .hat-img {
+    position: absolute;
+    right: 50px;
+    top: -305px;
+    transform: rotate(-40deg);
+    z-index: 2;
 }
 #birthday-section .title .happy, .title .birthday{
     position: relative;
@@ -664,8 +673,9 @@ body {
         display: flex;
         justify-content: center;
         font-family: "Titan One", sans-serif;
-        font-size: 1.5rem;
-        letter-spacing: 8px;
+        font-size: 3.2rem;
+        line-height: 1.05;
+        letter-spacing: 4px;
         flex-direction: column;
         perspective: 1000px;
     }
@@ -703,11 +713,10 @@ body {
 
     #birthday-section .title .hat-img {
         position: absolute;
-        right: 45px;
-        top: -290px;
+        right: 36px;
+        top: -260px;
         transform: rotate(-40deg);
         z-index: 2;
-        opacity: 1;
 }
 #birthday-section.show .title .hat-img {
   z-index: 10;
