@@ -154,9 +154,8 @@
     transform: translateY(50px);
     opacity: 0;
     visibility: hidden;
-    animation: txtTranslateY 0.5s calc(var(--t) - 2s) forwards;
+    animation: txtTranslateY .6s var(--t) ease-in-out forwards;
 }
-
 @keyframes txtTranslateY{
     100%{
         transform: translateY(0);
@@ -168,13 +167,13 @@
     color: var(--color-text-pink);
 }
 
-#birthday-section .title .hat {
+.title .hat {
     position: absolute;
     right: 45px;
     top: -350px;
     transform: rotate(-40deg);
-    z-index: 5; /* ensure visible */
-    animation: topHat 3s 1s forwards ease;
+    z-index: 10; /* make it visible above others */
+    animation: topHat 3s 6.8s forwards ease-in-out;
 }
 @keyframes topHat{
     20%, 30%{
@@ -230,11 +229,18 @@
         height: 50px;
     }
 }
-.name{
+.name {
     position: absolute;
     padding: 0px 40px;
     bottom: -20px;
     border: 3px solid var(--color-black);
+    opacity: 0;
+    animation: fadeName 2s 10s forwards ease-in;
+}
+
+@keyframes fadeName {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 .date__of__birth span, .name span{
     font-weight: bold;
@@ -801,54 +807,50 @@
     }
     }
 /* Fade-in effect for the birthday section */
+/* === birthday reveal helpers - final fixed version === */
 #birthday-section {
-    animation: fadeIn 1s ease-in;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-/* === birthday reveal helpers - append at bottom of your CSS === */
-/* keep #birthday-section display controlled by JS; default hidden in combined layout */
-#birthday-section {
-  display: none; /* default hidden; JS will set display:block when ready */
+  display: none;            /* hidden until shown by JS */
   opacity: 0;
+  animation: none;
 }
 
-/* animate fade-in on reveal */
 #birthday-section.show {
   display: block;
-  animation: fadeIn 0.6s ease-in forwards;
+  animation: fadeIn 0.8s ease-in forwards;
 }
 
-/* ensure hat animates immediately when .show is added */
+/* fade-in animation definition */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* make hat appear immediately after section fade */
 #birthday-section.show .title .hat {
-  /* start hat animation now (override longer original delay) */
-  animation: topHat 1s 0.35s forwards ease;
-  z-index: 2; /* ensure hat is visible */
+  z-index: 10;
+  animation: topHat 3s 6.8s forwards ease-in-out;
 }
 
-/* make the happy/birthday letters pop in faster when shown */
+/* make the happy/birthday letters appear smoothly */
 #birthday-section.show .title .happy span,
 #birthday-section.show .title .birthday span {
-  /* the span elements still use --t for delays — shift their start earlier
-     by subtracting 3.5s so they don't wait from page-load time */
-  animation: txtTranslateY .5s calc(var(--t) - 3.5s) forwards;
+  animation: txtTranslateY 0.6s var(--t) ease-in-out forwards;
 }
 
-/* make date block expand sooner on reveal */
+/* show date of birth earlier */
 #birthday-section.show .date__of__birth {
-  animation: dateOfBirth 0.9s 0.6s forwards;
+  animation: dateOfBirth 3s 8.5s forwards;
 }
 
-/* fade in the letter GIFs immediately */
+/* fade-in Supriya (❤️name❤️) tag faster */
+#birthday-section.show .name {
+  animation: fadeName 2s 9.8s forwards ease-in;
+}
+
+/* pop-in hearts & mewmew image faster */
 #birthday-section.show #heart__letter,
 #birthday-section.show .love__img,
 #birthday-section.show #mewmew {
   animation: opacityHeart 0.6s 0.2s forwards;
   opacity: 1;
 }
-
-
-
