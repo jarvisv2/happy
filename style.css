@@ -139,7 +139,7 @@ body {
     display: flex;
     justify-content: center;
     font-family: "Titan One", sans-serif;
-    font-size: 3rem;
+    font-size: 4.2rem;
     flex-direction: column;
     perspective: 1000px;
 }
@@ -176,7 +176,7 @@ body {
 #birthday-section .title .hat-img {
   position: absolute;
   right: 45px;
-  top: -350px;  /* restores original alignment */
+  top: -290px;  /* restores original alignment */
   transform: rotate(-40deg);
   z-index: 2;
 }
@@ -702,12 +702,12 @@ body {
     }
 
     #birthday-section .title .hat-img {
-  position: absolute;
-  right: 45px;
-  top: -350px;
-  transform: rotate(-40deg);
-  z-index: 2;
-  opacity: 1;
+        position: absolute;
+        right: 45px;
+        top: -290px;
+        transform: rotate(-40deg);
+        z-index: 2;
+        opacity: 1;
 }
 #birthday-section.show .title .hat-img {
   z-index: 10;
