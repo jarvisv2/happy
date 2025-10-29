@@ -803,11 +803,9 @@
         animation: balloon1 2s infinite linear;
     }
 
-        #birthday-section .right .balloon_one img{
+    #birthday-section .right .balloon_one img{
         width: 76px !important;
     }
-}   /* ← ADD THIS LINE — closes the @media block */
-
 /* Fade-in effect for the birthday section */
 /* === birthday reveal helpers - final fixed version === */
 #birthday-section {
@@ -821,6 +819,7 @@
   animation: fadeIn 0.8s ease-in forwards;
 }
 
+/* fade-in animation definition */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
