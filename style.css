@@ -176,10 +176,9 @@ body {
 #birthday-section .title .hat-img {
   position: absolute;
   right: 45px;
-  top: -350px;
+  top: -350px;  /* restores original alignment */
   transform: rotate(-40deg);
   z-index: 2;
-  opacity: 1;
 }
 #birthday-section.show .title .hat-img {
   z-index: 10;
