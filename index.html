@@ -630,7 +630,9 @@ if (typeof startDateTyping === 'function') {
     let date__of__birth = document.querySelector(".date__of__birth span");
     let text__letter = document.querySelector(".text__letter p");
     // Replace the old setTimeout with a function you can call when the birthday section is shown
-function startDateTyping(delay = 0){
+function startDateTyping(delay=0){
+    currentIndex = 0;
+    date__of__birth.textContent = ""; // Clear before animation
     setTimeout(function(){
         timeDatetxt = setInterval(function(){
             if(currentIndex < charArrDate.length){
