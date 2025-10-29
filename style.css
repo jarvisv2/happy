@@ -173,13 +173,17 @@ body {
 #birthday-section .title .birthday{
     color: var(--color-text-pink);
 }
-#birthday-section .title .hat {
-    position: absolute;
-    right: 45px;
-    top: -350px;
-    transform: rotate(-40deg);
-    z-index: -1;
-    animation: topHat 4s 7s forwards ease;
+#birthday-section .title .hat-img {
+  position: absolute;
+  right: 45px;
+  top: -350px;
+  transform: rotate(-40deg);
+  z-index: 2;
+  opacity: 1;
+}
+#birthday-section.show .title .hat-img {
+  z-index: 10;
+  animation: topHat 3s 6.8s forwards ease-in-out;
 }
 @keyframes topHat{
     20%, 30%{
@@ -698,17 +702,17 @@ body {
         animation: scaleCricle 3s 15s forwards ease-in-out;
     }
 
-    #birthday-section .title .hat {
-    position: absolute;
-    right: 45px;
-    top: -350px;
-    transform: rotate(-40deg);
-    z-index: 2;
-    /* Remove animation property from here */
+    #birthday-section .title .hat-img {
+  position: absolute;
+  right: 45px;
+  top: -350px;
+  transform: rotate(-40deg);
+  z-index: 2;
+  opacity: 1;
 }
-#birthday-section.show .title .hat {
-    z-index: 10;
-    animation: topHat 3s 6.8s forwards ease-in-out;
+#birthday-section.show .title .hat-img {
+  z-index: 10;
+  animation: topHat 3s 6.8s forwards ease-in-out;
 }
 
     #birthday-section .box__letter .letter__border {
@@ -818,12 +822,6 @@ body {
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
-}
-
-/* make hat appear immediately after section fade */
-#birthday-section.show .title .hat {
-  z-index: 10;
-  animation: topHat 3s 6.8s forwards ease-in-out;
 }
 
 /* make the happy/birthday letters appear smoothly */
