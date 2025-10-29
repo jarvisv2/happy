@@ -150,12 +150,13 @@
 .title .happy{
     color: var(--color-white);
 }
-.title .happy span, .title .birthday span{
+.title .happy span, .title .birthday span {
     transform: translateY(50px);
     opacity: 0;
     visibility: hidden;
-    animation: txtTranslateY .5s var(--t) forwards;
+    animation: txtTranslateY 0.5s calc(var(--t) - 2s) forwards;
 }
+
 @keyframes txtTranslateY{
     100%{
         transform: translateY(0);
@@ -167,13 +168,13 @@
     color: var(--color-text-pink);
 }
 
-#birthday-section .title .hat{
+#birthday-section .title .hat {
     position: absolute;
     right: 45px;
     top: -350px;
     transform: rotate(-40deg);
-    z-index: -1;
-    animation: topHat 4s 7s forwards ease;
+    z-index: 5; /* ensure visible */
+    animation: topHat 3s 1s forwards ease;
 }
 @keyframes topHat{
     20%, 30%{
@@ -845,7 +846,7 @@
 #birthday-section.show #heart__letter,
 #birthday-section.show .love__img,
 #birthday-section.show #mewmew {
-  animation: opacityHeart 0.9s 0.7s forwards;
+  animation: opacityHeart 0.6s 0.2s forwards;
   opacity: 1;
 }
 
