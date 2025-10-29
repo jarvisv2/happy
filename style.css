@@ -699,7 +699,7 @@
         animation: scaleCricle 3s 15s forwards ease-in-out;
     }
 
-    .title .hat {
+    #birthdat-section .title .hat {
         position: absolute;
         right: -98px;
         top: -51px !important;
@@ -800,13 +800,50 @@
     }
     }
 /* Fade-in effect for the birthday section */
+/* === birthday reveal helpers - final fixed version === */
 #birthday-section {
-    animation: fadeIn 1s ease-in;
+  display: none;            /* hidden until shown by JS */
+  opacity: 0;
+  animation: none;
 }
 
+#birthday-section.show {
+  display: block;
+  animation: fadeIn 0.8s ease-in forwards;
+}
+
+/* fade-in animation definition */
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
+/* make hat appear immediately after section fade */
+#birthday-section.show .title .hat {
+  z-index: 10;
+  animation: topHat 3s 6.8s forwards ease-in-out;
+}
 
+/* make the happy/birthday letters appear smoothly */
+#birthday-section.show .title .happy span,
+#birthday-section.show .title .birthday span {
+  animation: txtTranslateY 0.6s var(--t) ease-in-out forwards;
+}
+
+/* show date of birth earlier */
+#birthday-section.show .date__of__birth {
+  animation: dateOfBirth 3s 8.5s forwards;
+}
+
+/* fade-in Supriya (❤️name❤️) tag faster */
+#birthday-section.show .name {
+  animation: fadeName 2s 9.8s forwards ease-in;
+}
+
+/* pop-in hearts & mewmew image faster */
+#birthday-section.show #heart__letter,
+#birthday-section.show .love__img,
+#birthday-section.show #mewmew {
+  animation: opacityHeart 0.6s 0.2s forwards;
+  opacity: 1;
+}
