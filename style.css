@@ -896,25 +896,25 @@ body {
     width: 95px;           /* reduce hat size a tad if it's too big */
   }
 }
-/* === Final mobile alignment fix for hat (keeps PC perfect) === */
+/* === Improved mobile-only hat alignment === */
 @media (max-width: 658px) {
   #birthday-section .title .hat-img {
     position: absolute;
-    left: 58%;
-    top: -85px; /* raise slightly */
+    left: 52%;              /* move slightly left */
+    top: -120px;            /* raise hat higher */
     transform: translateX(-50%) rotate(-38deg);
-    width: 115px; /* keep proportionate on small screen */
+    width: 115px;
     z-index: 60;
   }
 }
 
-/* Smaller phones (like 390–420px width) */
 @media (max-width: 430px) {
   #birthday-section .title .hat-img {
-    left: 55%;
-    top: -75px; /* slightly lower for smaller screen height */
+    left: 50%;              /* center on very small screens */
+    top: -100px;            /* adjust slightly down */
     transform: translateX(-50%) rotate(-37deg);
-    width: 105px;
+    width: 100px;
   }
 }
+
 
