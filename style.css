@@ -169,10 +169,10 @@
 
 .title .hat {
     position: absolute;
-    right: -98px;
-    top: -51px !important;
+    right: 45px;
+    top: -350px;
     transform: rotate(-40deg);
-    z-index: 10; /* fixed */
+    z-index: 10; /* make it visible above others */
     animation: topHat 3s 6.8s forwards ease-in-out;
 }
 @keyframes topHat{
@@ -235,7 +235,7 @@
     bottom: -20px;
     border: 3px solid var(--color-black);
     opacity: 0;
-    animation: fadeName 2s 8s forwards ease-in;
+    animation: fadeName 2s 10s forwards ease-in;
 }
 
 @keyframes fadeName {
@@ -616,7 +616,7 @@
     opacity: 0;
 }
 #mewmew.animationOp{
-    animation: opacityHeart 1s 1s forwards;
+    animation: opacityHeart 0.6s 0s forwards;
 }
 
 
@@ -706,10 +706,10 @@
         animation: scaleCricle 3s 15s forwards ease-in-out;
     }
 
-    .title .hat {
+.title .hat {
     position: absolute;
-    right: -98px;
-    top: -51px !important;
+    right: -90px;
+    top: -50px;
     transform: rotate(-40deg);
     z-index: 10;
     animation: topHat 3s 6.8s forwards ease-in-out;
@@ -806,12 +806,13 @@
     #birthday-section .right .balloon_one img{
         width: 76px !important;
     }
+    }
 /* Fade-in effect for the birthday section */
 /* === birthday reveal helpers - final fixed version === */
 #birthday-section {
+  display: none;            /* hidden until shown by JS */
   opacity: 0;
   animation: none;
-  transition: opacity 0.5s ease-in;
 }
 
 #birthday-section.show {
