@@ -173,7 +173,7 @@ body {
 #birthday-section .title .birthday{
     color: var(--color-text-pink);
 }
-#birthday-section .title .hat {
+#birthday-section .hat {
     position: absolute;
     right: 45px;
     top: -350px;
@@ -698,7 +698,7 @@ body {
         animation: scaleCricle 3s 15s forwards ease-in-out;
     }
 
-    #birthdat-section .title .hat {
+    #birthdat-section .hat {
         position: absolute;
         right: -98px;
         top: -51px !important;
@@ -817,7 +817,7 @@ body {
 }
 
 /* make hat appear immediately after section fade */
-#birthday-section.show .title .hat {
+#birthday-section.show .hat {
   z-index: 10;
   animation: topHat 3s 6.8s forwards ease-in-out;
 }
