@@ -176,7 +176,7 @@ body {
 #birthday-section .title .hat-img {
   position: absolute;
   right: 45px;
-  top: -120px;      /* was -350px — fixed alignment */
+  top: -350px;
   transform: rotate(-40deg);
   z-index: 2;
   opacity: 1;
@@ -665,7 +665,7 @@ body {
         display: flex;
         justify-content: center;
         font-family: "Titan One", sans-serif;
-        font-size: 3rem;
+        font-size: 1.5rem;
         letter-spacing: 8px;
         flex-direction: column;
         perspective: 1000px;
