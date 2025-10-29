@@ -711,18 +711,6 @@ body {
         animation: scaleCricle 3s 15s forwards ease-in-out;
     }
 
-    #birthday-section .title .hat-img {
-        position: absolute;
-        right: 36px;
-        top: -260px;
-        transform: rotate(-40deg);
-        z-index: 2;
-}
-#birthday-section.show .title .hat-img {
-  z-index: 10;
-  animation: topHat 3s 6.8s forwards ease-in-out;
-}
-
     #birthday-section .box__letter .letter__border {
         position: absolute;
         width: 90vw;
@@ -875,18 +863,6 @@ body {
   }
 }
 
-/* Typical mobile phones */
-@media (max-width: 658px) {
-  /* center the hat over the "Happy" word area */
-  #birthday-section .title .hat-img {
-    right: auto;           /* let left/translate control it */
-    left: 50%;
-    top: -60px;            /* lift it up less for mobile */
-    transform: translateX(18px) rotate(-36deg);
-    z-index: 60;
-  }
-}
-
 /* Very small phones (narrow screens) */
 @media (max-width: 420px) {
   #birthday-section .title .hat-img {
@@ -894,17 +870,6 @@ body {
     top: -50px;            /* slightly higher so it doesn't overlap letters */
     transform: translateX(10px) rotate(-34deg);
     width: 95px;           /* reduce hat size a tad if it's too big */
-  }
-}
-/* === Improved mobile-only hat alignment === */
-@media (max-width: 658px) {
-  #birthday-section .title .hat-img {
-    position: absolute;
-    left: 52%;              /* move slightly left */
-    top: -120px;            /* raise hat higher */
-    transform: translateX(-50%) rotate(-38deg);
-    width: 115px;
-    z-index: 60;
   }
 }
 
@@ -916,5 +881,26 @@ body {
     width: 100px;
   }
 }
+/* === Live-site specific mobile hat alignment fix === */
+@media (max-width: 658px) {
+  #birthday-section .title .hat-img {
+    position: absolute;
+    left: 50%;               /* center horizontally */
+    top: -95px;              /* lift up so it rests on “Happy” */
+    transform: translateX(-50%) rotate(-38deg);
+    width: 110px;            /* adjust size to match mobile scale */
+    z-index: 60;
+    pointer-events: none;
+  }
+}
+
+/* Very small phones (~< 400px width) */
+@media (max-width: 420px) {
+  #birthday-section .title .hat-img {
+    top: -80px;
+    width: 100px;
+  }
+}
+
 
 
